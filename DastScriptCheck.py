@@ -11,7 +11,7 @@ def api_request(url, headers):
     response = requests.get(url, auth=RequestsAuthPluginVeracodeHMAC(), headers=headers)
     return response
 
-# Function to get the most recent scan_occurrence_ids for a given analysis_id
+# Function to get the most recent scan occurrence ids for a given analysis occurrence id
 def get_most_recent_scan_occurrence_ids(analysis_id):
     url = f"https://api.veracode.com/was/configservice/v1/analysis_occurrences/{analysis_id}/scan_occurrences?page=0&size=1&sort=created_on,desc"
     headers = {"User-Agent": "Python HMAC"}
@@ -54,18 +54,18 @@ def check_veracode_scan(scan_occurrence_id, writer):
                         "url": f"https://web.analysiscenter.veracode.com/was/#/scanoccurrence/{scan_occurrence_id}/scandetails"
                     })
 
-# Function to process scan occurrences and check if the last command is a "verifyText" or "assertText"
+# Function to process scan occurrences
 def process_scan_occurrences(latest_occurrences, writer):
     for occurrence in latest_occurrences:
         scan_occurrence_ids = get_most_recent_scan_occurrence_ids(occurrence)
         for scan_occurrence_id in scan_occurrence_ids:
             check_veracode_scan(scan_occurrence_id, writer)
 
-# Define the URL of the Veracode API endpoint to get analyses
+# Define the URL of the Veracode API endpoint to get analyses and get the latest analysis occurrence
 base_url = "https://api.veracode.com/was/configservice/v1/analyses"
 headers = {"User-Agent": "Python HMAC"}
 
-# Initialize an empty list to hold all WEB_SCAN analysis occurrences
+# Initialize an empty list to hold all web scan analysis occurrences
 latest_web_scan_ids = []
 page = 0
 total_pages = 1
@@ -98,7 +98,7 @@ if latest_web_scan_ids:
         
         process_scan_occurrences(latest_web_scan_ids, writer)
 else:
-    print("No WEB_SCAN analysis occurrences found.")
+    print("No web scan analysis occurrences found.")
 
 
 
