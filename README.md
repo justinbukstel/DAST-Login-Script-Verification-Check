@@ -1,4 +1,4 @@
-# DAST-Login-Script-Verification-Check
+# DAST Login Script Verification Check
 
 This tool can be used to verify that the last step in a Veracode login script is a verification step. It is best practice to have a verification step as your last step to confirm a logged in state. Without the verification step, a DAST scan may not have sufficient coverage due to invalid credentials, a change in the login sequence, etc. If no verification step is included, the scan may seem successfull when it might not be. 
 
